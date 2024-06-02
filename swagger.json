@@ -1,0 +1,455 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Express API for Users",
+    "version": "1.0.0",
+    "description": "This is a REST API application made with Express."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Development server"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "Получение списка пользователей",
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID пользователя",
+                        "example": "c6bf0e55-db67-49bc-9af6-c900c5da1d4a"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Имя пользователя",
+                        "example": "Romchik Shamov"
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": "Почта пользователя",
+                        "example": "bebronyuh@ugar.fun"
+                      },
+                      "age": {
+                        "type": "number",
+                        "description": "Количество полных лет пользователя",
+                        "example": 4
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Users not found"
+          }
+        }
+      },
+      "post": {
+        "summary": "Создание нового пользователя",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "email",
+                    "age"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Имя пользователя",
+                      "example": "Romchik Shamov"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Почта пользователя",
+                      "example": "bebronyuh@ugar.fun"
+                    },
+                    "age": {
+                      "type": "number",
+                      "description": "Количество полных лет пользователя",
+                      "example": 4
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid user data"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Получение пользователя по ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID пользователя"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID пользователя",
+                      "example": "c6bf0e55-db67-49bc-9af6-c900c5da1d4a"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Имя пользователя",
+                      "example": "Romchik Shamov"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Почта пользователя",
+                      "example": "bebronyuh@ugar.fun"
+                    },
+                    "age": {
+                      "type": "number",
+                      "description": "Количество полных лет пользователя",
+                      "example": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Обновление пользователя",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID пользователя"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "ID пользователя",
+                    "example": "c6bf0e55-db67-49bc-9af6-c900c5da1d4a"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Имя пользователя",
+                    "example": "Romchik Shamov"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Почта пользователя",
+                    "example": "bebronyuh@ugar.fun"
+                  },
+                  "age": {
+                    "type": "number",
+                    "description": "Количество полных лет пользователя",
+                    "example": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User object updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID пользователя",
+                      "example": "c6bf0e55-db67-49bc-9af6-c900c5da1d4a"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Имя пользователя",
+                      "example": "Romchik Shamov"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Почта пользователя",
+                      "example": "bebronyuh@ugar.fun"
+                    },
+                    "age": {
+                      "type": "number",
+                      "description": "Количество полных лет пользователя",
+                      "example": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "400": {
+            "description": "Invalid user data"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Удаление пользователя",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID пользователя"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User object deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID пользователя",
+                      "example": "c6bf0e55-db67-49bc-9af6-c900c5da1d4a"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Имя пользователя",
+                      "example": "Romchik Shamov"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Почта пользователя",
+                      "example": "bebronyuh@ugar.fun"
+                    },
+                    "age": {
+                      "type": "number",
+                      "description": "Количество полных лет пользователя",
+                      "example": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/sorted": {
+      "get": {
+        "summary": "Получение отсортированного списка пользователей",
+        "responses": {
+          "200": {
+            "description": "Sorted list of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID пользователя",
+                        "example": "c6bf0e55-db67-49bc-9af6-c900c5da1d4a"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Имя пользователя",
+                        "example": "Romchik Shamov"
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": "Почта пользователя",
+                        "example": "bebronyuh@ugar.fun"
+                      },
+                      "age": {
+                        "type": "number",
+                        "description": "Количество полных лет пользователя",
+                        "example": 4
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Users not found"
+          }
+        }
+      }
+    },
+    "/users/age/{age}": {
+      "get": {
+        "summary": "Получение списка пользователей по возрасту",
+        "parameters": [
+          {
+            "name": "age",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Возраст пользователя"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of users sorted by age",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID пользователя",
+                        "example": "c6bf0e55-db67-49bc-9af6-c900c5da1d4a"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Имя пользователя",
+                        "example": "Romchik Shamov"
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": "Почта пользователя",
+                        "example": "bebronyuh@ugar.fun"
+                      },
+                      "age": {
+                        "type": "number",
+                        "description": "Количество полных лет пользователя",
+                        "example": 4
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Users not found"
+          }
+        }
+      }
+    },
+    "/users/domain/{domain}": {
+      "get": {
+        "summary": "Получение списка пользователей по домену",
+        "parameters": [
+          {
+            "name": "domain",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Домен пользователя"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of users sorted by domain",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID пользователя",
+                        "example": "c6bf0e55-db67-49bc-9af6-c900c5da1d4a"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Имя пользователя",
+                        "example": "Romchik Shamov"
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": "Почта пользователя",
+                        "example": "bebronyuh@ugar.fun"
+                      },
+                      "age": {
+                        "type": "number",
+                        "description": "Количество полных лет пользователя",
+                        "example": 4
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Users not found"
+          }
+        }
+      }
+    }
+  }
+}
+  
