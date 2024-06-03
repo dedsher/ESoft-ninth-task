@@ -57,13 +57,25 @@
         }
       },
       "post": {
-        "summary": "Создание нового пользователя",
+        "summary": "Создание новых пользователей",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "array",
+                "example": [
+                  {
+                    "name": "Romchik Shamov",
+                    "email": "bebronyuh@ugar.fun",
+                    "age": 4
+                  },
+                  {
+                    "name": "Marchik Polyakov",
+                    "email": "pobeda1945@ugar.fun",
+                    "age": 93
+                  }
+                ],
                 "items": {
                   "type": "object",
                   "required": [
@@ -175,11 +187,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id": {
-                    "type": "string",
-                    "description": "ID пользователя",
-                    "example": "c6bf0e55-db67-49bc-9af6-c900c5da1d4a"
-                  },
                   "name": {
                     "type": "string",
                     "description": "Имя пользователя",
@@ -193,7 +200,7 @@
                   "age": {
                     "type": "number",
                     "description": "Количество полных лет пользователя",
-                    "example": 4
+                    "example": 12
                   }
                 }
               }
@@ -437,6 +444,166 @@
                         "type": "number",
                         "description": "Количество полных лет пользователя",
                         "example": 4
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Users not found"
+          }
+        }
+      }
+    },
+    "/users/{id}/friends": {
+      "get": {
+        "summary": "Получение списка друзей пользователя",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID пользователя"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of user friends",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID пользователя",
+                        "example": "c6bf0e55-db67-49bc-9af6-c900c5da1d4a"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Имя пользователя",
+                        "example": "Romchik Shamov"
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": "Почта пользователя",
+                        "example": "bebronyuh@ugar.fun"
+                      },
+                      "age": {
+                        "type": "number",
+                        "description": "Количество полных лет пользователя",
+                        "example": 4
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Users not found"
+          }
+        }
+      }
+    },
+    "/users/{id}/friends/addFriend": {
+      "post": {
+        "summary": "Добавление друга пользователю",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID пользователя"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "friendId"
+                ],
+                "properties": {
+                  "friendId": {
+                    "type": "string",
+                    "description": "ID пользователя",
+                    "example": "bbB63SQlQn"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User object updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID пользователя",
+                        "example": "c6bf0e55-db67-49bc-9af6-c900c5da1d4a"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Имя пользователя",
+                        "example": "Romchik Shamov"
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": "Почта пользователя",
+                        "example": "bebronyuh@ugar.fun"
+                      },
+                      "age": {
+                        "type": "number",
+                        "description": "Количество полных лет пользователя",
+                        "example": 4
+                      },
+                      "friends": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "description": "ID пользователя",
+                              "example": "c6bf0e55-db67-49bc-9af6-c900c5da1d4a"
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "Имя пользователя",
+                              "example": "Romchik Shamov"
+                            },
+                            "email": {
+                              "type": "string",
+                              "description": "Почта пользователя",
+                              "example": "bebronyuh@ugar.fun"
+                            },
+                            "age": {
+                              "type": "number",
+                              "description": "Количество полных лет пользователя",
+                              "example": 4
+                            }
+                          }
+                        }
                       }
                     }
                   }

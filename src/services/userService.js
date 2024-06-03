@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require("uuid");
+const shortid = require("shortid");
 
 class UserService {
   constructor(userRepository) {
@@ -6,7 +6,8 @@ class UserService {
   }
 
   async getAllUsers() {
-    return await this.userRepository.readUsersFromFile();
+    const users = await this.userRepository.readUsersFromFile();
+    return users;
   }
 
   async getSortedUsers() {
@@ -21,53 +22,64 @@ class UserService {
 
   async getUserById(id) {
     const users = await this.userRepository.readUsersFromFile();
-    return users.find((user) => String(user.id) === id);
+    const foundUser = users.find((user) => user.id === id);
+    return foundUser;
   }
 
-  async addUser(userData) {
+  async addUsers(usersData) {
     const users = await this.userRepository.readUsersFromFile();
-    const usersToAdd = userData.map((user) => {
+    const usersToAdd = usersData.map((user) => {
       const { email, name, age } = user;
       if (email && name && age) {
-        return { id: uuidv4(), email, name, age };
+        return { id: shortid.generate(), email, name, age, friends: [] };
+      } else {
+        null;
       }
     });
+
+    usersToAdd.filter((user) => user !== null);
+
+    if (usersToAdd.length === 0) {
+      return [];
+    }
 
     await this.userRepository.writeUsersToFile([...users, ...usersToAdd]);
     return usersToAdd;
   }
 
-  async updateUser(userData, userId) {
+  async updateUser(userId, userData) {
     const users = await this.userRepository.readUsersFromFile();
-    const user = users.find((user) => String(user.id) === userId);
+    const user = users.find((user) => user.id === userId);
+    console.log(userId);
     if (user) {
-      const { name, email, age } = userData;
+      const { name, age, email } = userData;
       if (name) user.name = name;
       if (email) user.email = email;
       if (age) user.age = age;
       await this.userRepository.writeUsersToFile(users);
       return user;
-    } else {
-      return null;
     }
+
+    return null;
   }
 
   async deleteUser(id) {
     const users = await this.userRepository.readUsersFromFile();
-    const userIndex = users.findIndex((user) => String(user.id) === id);
+    const userIndex = users.findIndex((user) => user.id === id);
     if (userIndex !== -1) {
       const [deletedUser] = users.splice(userIndex, 1);
       await this.userRepository.writeUsersToFile(users);
       return deletedUser;
-    } else {
-      return null;
     }
+
+    return null;
   }
 
   async getUsersByAge(age) {
     const users = await this.userRepository.readUsersFromFile();
-    const parsedAge = parseInt(age, 10);
-    const filteredUsers = users.filter((user) => user.age > parsedAge);
+    const filteredUsers = users.filter(
+      (user) => parseInt(user.age) > parseInt(age)
+    );
     return filteredUsers;
   }
 
@@ -75,6 +87,36 @@ class UserService {
     const users = await this.userRepository.readUsersFromFile();
     const filteredUsers = users.filter((user) => user.email.endsWith(domain));
     return filteredUsers;
+  }
+
+  async getUserFriends(id) {
+    const users = await this.userRepository.readUsersFromFile();
+    const user = users.find((user) => user.id === id);
+    const friends = user.friends.map((friendId) =>
+      users.find((user) => user.id === friendId)
+    );
+    return friends;
+  }
+
+  async addFriend(userId, friendId) {
+    const users = await this.userRepository.readUsersFromFile();
+    const user = users.find((u) => u.id === userId);
+    const friend = users.find((u) => u.id === friendId);
+    console.log(user, friend);
+
+    if (!user || !friend) {
+      return null;
+    }
+
+    if (!user.friends.includes(friendId)) {
+      user.friends.push(friendId);
+    }
+    if (!friend.friends.includes(userId)) {
+      friend.friends.push(userId);
+    }
+
+    await this.userRepository.writeUsersToFile(users);
+    return user;
   }
 }
 

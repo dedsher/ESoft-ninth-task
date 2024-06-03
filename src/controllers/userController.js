@@ -38,7 +38,7 @@ class UserController {
     }
   }
 
-  async addUser(req, res) {
+  async addUsers(req, res) {
     if (!Array.isArray(req.body)) {
       return res
         .status(HTTP_CODES.BAD_REQUEST)
@@ -46,9 +46,10 @@ class UserController {
     }
 
     try {
-      const newUsers = await this.userService.addUser(req.body);
+      const newUsers = await this.userService.addUsers(req.body);
       res.status(HTTP_CODES.CREATED).json(newUsers);
     } catch (err) {
+      console.error(err);
       res
         .status(HTTP_CODES.BAD_REQUEST)
         .json({ error: HTTP_MESSAGES.SERVER_ERROR });
@@ -94,7 +95,7 @@ class UserController {
 
   async getSortedUsers(req, res) {
     const users = await this.userService.getSortedUsers();
-    if (!users || users.length === 0) {
+    if (!users) {
       return res
         .status(HTTP_CODES.NOT_FOUND)
         .json({ error: HTTP_MESSAGES.NOT_FOUND });
@@ -104,7 +105,7 @@ class UserController {
 
   async getUsersByAge(req, res) {
     const users = await this.userService.getUsersByAge(req.params.age);
-    if (!users || users.length === 0) {
+    if (!users) {
       return res
         .status(HTTP_CODES.NOT_FOUND)
         .json({ error: HTTP_MESSAGES.NOT_FOUND });
@@ -114,12 +115,32 @@ class UserController {
 
   async getUsersByDomain(req, res) {
     const users = await this.userService.getUsersByDomain(req.params.domain);
-    if (!users || users.length === 0) {
+    if (!users) {
       return res
         .status(HTTP_CODES.NOT_FOUND)
         .json({ error: HTTP_MESSAGES.NOT_FOUND });
     }
     res.status(HTTP_CODES.OK).json(users);
+  }
+
+  async getUserFriends(req, res) {
+    const friends = await this.userService.getUserFriends(req.params.id);
+    if (!friends) {
+      return res
+        .status(HTTP_CODES.NOT_FOUND)
+        .json({ error: HTTP_MESSAGES.NOT_FOUND });
+    }
+    res.status(HTTP_CODES.OK).json(friends);
+  }
+
+  async addFriend(req, res) {
+    const user = await this.userService.addFriend(req.params.id, req.body.friendId);
+    if (!user) {
+      return res
+        .status(HTTP_CODES.NOT_FOUND)
+        .json({ error: HTTP_MESSAGES.NOT_FOUND });
+    }
+    res.status(HTTP_CODES.CREATED).json(user);
   }
 }
 
