@@ -5,7 +5,7 @@ module.exports = (userController) => {
 
   router.get('/', (req, res) => userController.getAllUsers(req, res));
   router.get("/sorted", (req, res) => userController.getSortedUsers(req, res));
-  router.post("/", (req, res) => userController.addUsers(req, res));
+  router.post("/", (req, res) => userController.addUser(req, res));
 
   router.get("/:id/friends", (req, res) => userController.getUserFriends(req, res));
   router.post("/:id/friends/addFriend", (req, res) => userController.addFriend(req, res));

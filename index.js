@@ -17,9 +17,9 @@ const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
 const userController = new UserController(userService);
 
-app.use(errorHandler);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/users", userRoutes(userController));
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);

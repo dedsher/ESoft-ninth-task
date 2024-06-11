@@ -14,7 +14,7 @@
   "paths": {
     "/users": {
       "get": {
-        "summary": "Получение списка пользователей",
+        "summary": "Получение списка всех пользователей",
         "responses": {
           "200": {
             "description": "List of users",
@@ -28,7 +28,7 @@
                       "id": {
                         "type": "string",
                         "description": "ID пользователя",
-                        "example": "c6bf0e55-db67-49bc-9af6-c900c5da1d4a"
+                        "example": "LXLktjE0L"
                       },
                       "name": {
                         "type": "string",
@@ -44,6 +44,14 @@
                         "type": "number",
                         "description": "Количество полных лет пользователя",
                         "example": 4
+                      },
+                      "friends": {
+                        "type": "array",
+                        "description": "ID пользователей-друзей",
+                        "example": [
+                          "Kt8nbzvODu",
+                          "WLWrFY9gTV"
+                        ]
                       }
                     }
                   }
@@ -57,49 +65,17 @@
         }
       },
       "post": {
-        "summary": "Создание новых пользователей",
+        "summary": "Создание нового пользователя",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "array",
-                "example": [
-                  {
-                    "name": "Romchik Shamov",
-                    "email": "bebronyuh@ugar.fun",
-                    "age": 4
-                  },
-                  {
-                    "name": "Marchik Polyakov",
-                    "email": "pobeda1945@ugar.fun",
-                    "age": 93
-                  }
-                ],
-                "items": {
-                  "type": "object",
-                  "required": [
-                    "name",
-                    "email",
-                    "age"
-                  ],
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "Имя пользователя",
-                      "example": "Romchik Shamov"
-                    },
-                    "email": {
-                      "type": "string",
-                      "description": "Почта пользователя",
-                      "example": "bebronyuh@ugar.fun"
-                    },
-                    "age": {
-                      "type": "number",
-                      "description": "Количество полных лет пользователя",
-                      "example": 4
-                    }
-                  }
+                "type": "object",
+                "example": {
+                  "name": "Romchik Shamov",
+                  "email": "bebronyuh@ugar.fun",
+                  "age": 4
                 }
               }
             }

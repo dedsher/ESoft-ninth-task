@@ -38,16 +38,10 @@ class UserController {
     }
   }
 
-  async addUsers(req, res) {
-    if (!Array.isArray(req.body)) {
-      return res
-        .status(HTTP_CODES.BAD_REQUEST)
-        .json({ error: HTTP_MESSAGES.INVALID_DATA });
-    }
-
+  async addUser(req, res) {
     try {
-      const newUsers = await this.userService.addUsers(req.body);
-      res.status(HTTP_CODES.CREATED).json(newUsers);
+      const newUser = await this.userService.addUser(req.body);
+      res.status(HTTP_CODES.CREATED).json(newUser);
     } catch (err) {
       console.error(err);
       res
